@@ -26,7 +26,7 @@ public class ConversionsModel : PageModel
         catch (FormatException)
         {
             ViewData["ErrorMessage"] = "Input must be a valid number.";
-            throw;
+            return;
         }
 
         double? conversionOutput = ConversionType switch
