@@ -13,8 +13,32 @@ public class ConversionsModel : PageModel
 
     public string Output { get; set; } = string.Empty;
 
+    public string ConversionTypeName => ConversionType switch
+    {
+        "MilesToKilometers" => "Miles To Kilometers",
+        "KilometersToMiles" => "Kilometers To Miles",
+        "FahrenheitToCelsius" => "Fahrenheit To Celsius",
+        "CelsiusToFahrenheit" => "Celsius To Fahrenheit",
+        "PoundsToKilograms" => "Pounds To Kilograms",
+        "KilogramsToPounds" => "Kilograms To Pounds",
+        "MphToMach" => "MPH To Mach",
+        "MachToMph" => "Mach To MPH",
+        _ => ConversionType
+    };
+
     public void OnGet()
     {
+        if (string.IsNullOrEmpty(ConversionType))
+        {
+            ConversionType = "MilesToKilometers";
+        }
+
+        if (string.IsNullOrEmpty(Input))
+        {
+            Input = "3.1415";
+        }
+
+        ViewData["ConversionType"] = "Miles to Kilometers";
         ViewData["Title"] = "Conversions";
 
         double conversionInput;

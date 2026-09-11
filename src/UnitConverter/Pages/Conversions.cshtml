@@ -1,22 +1,13 @@
-﻿@page "{ConversionType}/{Input}"
+﻿@page "{ConversionType?}/{Input?}"
 @model UnitConverter.Pages.ConversionsModel
 
-@{
-    Layout = null;
+@if (ViewData["ErrorMessage"] != null)
+{
+    <p class="text-danger">@ViewData["ErrorMessage"]</p>
 }
-
-<!DOCTYPE html>
-
-<html>
-<h1>@ViewData["ConversionType"]</h1>
-<p>Input: @Model.Input</p>
-<p>Output: @Model.Output</p>
-<p class="text-danger">@ViewData["ErrorMessage"]</p>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-</div>
-</body>
-</html>
+else
+{
+    <h1>@Model.ConversionTypeName</h1>
+    <p>Input: @Model.Input</p>
+    <p>Output: @Model.Output</p>
+}
