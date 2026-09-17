@@ -6,36 +6,40 @@ namespace UnitConverter.Pages;
 public class ConversionsModel : PageModel
 {
     [BindProperty(SupportsGet = true)]
-    public string ConversionType { get; set; } = string.Empty;
-
-    [BindProperty(SupportsGet = true)]
-    public string Input { get; set; } = string.Empty;
-
-    public string Output { get; set; } = string.Empty;
-
-    public string ConversionTypeName => ConversionType switch
+    public ConversionModel Conversion { get; set; } = new();
+    public string ConversionTypeName => Conversion.ConversionType switch
     {
-        "MilesToKilometers" => "Miles To Kilometers",
-        "KilometersToMiles" => "Kilometers To Miles",
-        "FahrenheitToCelsius" => "Fahrenheit To Celsius",
-        "CelsiusToFahrenheit" => "Celsius To Fahrenheit",
-        "PoundsToKilograms" => "Pounds To Kilograms",
-        "KilogramsToPounds" => "Kilograms To Pounds",
-        "MphToMach" => "MPH To Mach",
-        "MachToMph" => "Mach To MPH",
-        _ => ConversionType
+        ConversionTypes.MilesToKilometers => "Miles To Kilometers",
+        ConversionTypes.KilometersToMiles => "Kilometers To Miles",
+        ConversionTypes.FahrenheitToCelsius => "Fahrenheit To Celsius",
+        ConversionTypes.CelsiusToFahrenheit => "Celsius To Fahrenheit",
+        ConversionTypes.PoundsToKilograms => "Pounds To Kilograms",
+        ConversionTypes.KilogramsToPounds => "Kilograms To Pounds",
+        ConversionTypes.MphToMach => "MPH To Mach",
+        ConversionTypes.MachToMph => "Mach To MPH",
+        _ => Conversion.ConversionType
     };
 
-    public void OnGet()
+    public void OnGet(string? ConversionType, string? Input)
     {
-        if (string.IsNullOrEmpty(ConversionType))
+        if (!string.IsNullOrEmpty(ConversionType))
         {
-            ConversionType = "MilesToKilometers";
+            Conversion.ConversionType = ConversionType;
         }
 
-        if (string.IsNullOrEmpty(Input))
+        if (!string.IsNullOrEmpty(Input))
         {
-            Input = "3.1415";
+            Conversion.Input = Input;
+        }
+
+        if (string.IsNullOrEmpty(Conversion.ConversionType))
+        {
+            Conversion.ConversionType = "MilesToKilometers";
+        }
+
+        if (string.IsNullOrEmpty(Conversion.Input))
+        {
+            Conversion.Input = "3.1415";
         }
 
         ViewData["ConversionType"] = "Miles to Kilometers";
@@ -55,14 +59,22 @@ public class ConversionsModel : PageModel
 
         double? conversionOutput = ConversionType switch
         {
-            "MilesToKilometers" => new UnitOf.Length().FromMiles(conversionInput).ToKilometers(),
-            "KilometersToMiles" => new UnitOf.Length().FromKilometers(conversionInput).ToMiles(),
-            "FahrenheitToCelsius" => new UnitOf.Temperature().FromFahrenheit(conversionInput).ToCelsius(),
-            "CelsiusToFahrenheit" => new UnitOf.Temperature().FromCelsius(conversionInput).ToFahrenheit(),
-            "PoundsToKilograms" => new UnitOf.Mass().FromPounds(conversionInput).ToKilograms(),
-            "KilogramsToPounds" => new UnitOf.Mass().FromKilograms(conversionInput).ToPounds(),
-            "MphToMach" => new UnitOf.Speed().FromMilesPerHour(conversionInput).ToMach(),
-            "MachToMph" => new UnitOf.Speed().FromMach(conversionInput).ToMilesPerHour(),
+            ConversionTypes.MilesToKilometers =>
+                new UnitOf.Length().FromMiles(conversionInput).ToKilometers(),
+            ConversionTypes.KilometersToMiles =>
+                new UnitOf.Length().FromKilometers(conversionInput).ToMiles(),
+            ConversionTypes.FahrenheitToCelsius =>
+                new UnitOf.Temperature().FromFahrenheit(conversionInput).ToCelsius(),
+            ConversionTypes.CelsiusToFahrenheit =>
+                new UnitOf.Temperature().FromCelsius(conversionInput).ToFahrenheit(),
+            ConversionTypes.PoundsToKilograms =>
+                new UnitOf.Mass().FromPounds(conversionInput).ToKilograms(),
+            ConversionTypes.KilogramsToPounds =>
+                new UnitOf.Mass().FromKilograms(conversionInput).ToPounds(),
+            ConversionTypes.MphToMach =>
+                new UnitOf.Speed().FromMilesPerHour(conversionInput).ToMach(),
+            ConversionTypes.MachToMph =>
+                new UnitOf.Speed().FromMach(conversionInput).ToMilesPerHour(),
             _ => null
         };
 
@@ -72,6 +84,6 @@ public class ConversionsModel : PageModel
             return;
         }
 
-        Output = conversionOutput.Value.ToString();
+        Conversion.Output = conversionOutput.Value.ToString();
     }
 }
