@@ -7,6 +7,27 @@ public class ConversionsModel : PageModel
 {
     [BindProperty(SupportsGet = true)]
     public ConversionModel Conversion { get; set; } = new();
+
+    [BindProperty(SupportsGet = true)]
+    public string ConversionType
+    {
+        get => Conversion.ConversionType;
+        set => Conversion.ConversionType = value;
+    }
+
+    [BindProperty(SupportsGet = true)]
+    public string Input
+    {
+        get => Conversion.Input;
+        set => Conversion.Input = value;
+    }
+
+    public string Output
+    {
+        get => Conversion.Output;
+        set => Conversion.Output = value;
+    }
+
     public string ConversionTypeName => Conversion.ConversionType switch
     {
         ConversionTypes.MilesToKilometers => "Miles To Kilometers",
@@ -20,18 +41,8 @@ public class ConversionsModel : PageModel
         _ => Conversion.ConversionType
     };
 
-    public void OnGet(string? ConversionType, string? Input)
+    public void OnGet()
     {
-        if (!string.IsNullOrEmpty(ConversionType))
-        {
-            Conversion.ConversionType = ConversionType;
-        }
-
-        if (!string.IsNullOrEmpty(Input))
-        {
-            Conversion.Input = Input;
-        }
-
         if (string.IsNullOrEmpty(Conversion.ConversionType))
         {
             Conversion.ConversionType = "MilesToKilometers";
@@ -49,7 +60,7 @@ public class ConversionsModel : PageModel
 
         try
         {
-            conversionInput = Convert.ToDouble(Input);
+            conversionInput = Convert.ToDouble(Conversion.Input);
         }
         catch (FormatException)
         {
@@ -57,7 +68,7 @@ public class ConversionsModel : PageModel
             return;
         }
 
-        double? conversionOutput = ConversionType switch
+        double? conversionOutput = Conversion.ConversionType switch
         {
             ConversionTypes.MilesToKilometers =>
                 new UnitOf.Length().FromMiles(conversionInput).ToKilometers(),

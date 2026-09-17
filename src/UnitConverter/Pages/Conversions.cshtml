@@ -7,7 +7,9 @@
 }
 else
 {
-    <h1>@Model.ConversionTypeName</h1>
+    <h1>@ConversionTypes.All[Model.Conversion.ConversionType]</h1>
     <p>Input: @Model.Conversion.Input</p>
     <p>Output: @Model.Conversion.Output</p>
 }
+
+<a href="/">Return to the conversion form</a>
