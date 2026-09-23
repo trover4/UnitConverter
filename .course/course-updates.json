@@ -21,11 +21,20 @@
       "tag": "lesson-03-update",
       "marker": ".course/applied/lesson-03"
     },
+<<<<<<< HEAD
     {
   "number": 4,
   "name": "Tag Helpers and Named Handlers",
   "tag": "lesson-04-update",
   "marker": ".course/applied/lesson-04"
     }
+=======
+	{
+	  "number": 4,
+	  "name": "Tag Helpers and Named Handlers",
+	  "tag": "lesson-04-update",
+	  "marker": ".course/applied/lesson-04"
+	}
+>>>>>>> fc8e5e3 (Add Lesson 4 tag helpers and named handlers update)
   ]
 }
