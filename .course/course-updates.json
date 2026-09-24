@@ -21,5 +21,11 @@
       "tag": "lesson-03-update",
       "marker": ".course/applied/lesson-03"
     }
+    {
+  "number": 4,
+  "name": "Tag Helpers and Named Handlers",
+  "tag": "lesson-04-update",
+  "marker": ".course/applied/lesson-04"
+    }
   ]
 }
