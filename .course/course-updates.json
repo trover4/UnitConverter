@@ -21,20 +21,23 @@
       "tag": "lesson-03-update",
       "marker": ".course/applied/lesson-03"
     },
-<<<<<<< HEAD
-    {
-  "number": 4,
-  "name": "Tag Helpers and Named Handlers",
-  "tag": "lesson-04-update",
-  "marker": ".course/applied/lesson-04"
-    }
-=======
 	{
 	  "number": 4,
 	  "name": "Tag Helpers and Named Handlers",
 	  "tag": "lesson-04-update",
 	  "marker": ".course/applied/lesson-04"
+	},
+	{
+	  "number": 5,
+	  "name": "Dependency Injection",
+	  "tag": "lesson-05-update",
+	  "marker": ".course/applied/lesson-05"
+	},
+	{
+	  "number": 6,
+	  "name": "Troubleshooting",
+	  "tag": "lesson-06-update",
+	  "marker": ".course/applied/lesson-06"
 	}
->>>>>>> fc8e5e3 (Add Lesson 4 tag helpers and named handlers update)
   ]
 }
