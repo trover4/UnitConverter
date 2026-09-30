@@ -29,19 +29,6 @@ public class ConversionsModel : PageModel
         set => Conversion.Output = value;
     }
 
-    public string ConversionTypeName => Conversion.ConversionType switch
-    {
-        ConversionTypes.MilesToKilometers => "Miles To Kilometers",
-        ConversionTypes.KilometersToMiles => "Kilometers To Miles",
-        ConversionTypes.FahrenheitToCelsius => "Fahrenheit To Celsius",
-        ConversionTypes.CelsiusToFahrenheit => "Celsius To Fahrenheit",
-        ConversionTypes.PoundsToKilograms => "Pounds To Kilograms",
-        ConversionTypes.KilogramsToPounds => "Kilograms To Pounds",
-        ConversionTypes.MphToMach => "MPH To Mach",
-        ConversionTypes.MachToMph => "Mach To MPH",
-        _ => Conversion.ConversionType
-    };
-
     public void OnGet()
     {
         if (string.IsNullOrEmpty(Conversion.ConversionType))
