@@ -9,26 +9,6 @@ public class ConversionsModel : PageModel
     [BindProperty(SupportsGet = true)]
     public ConversionModel Conversion { get; set; } = new();
 
-    [BindProperty(SupportsGet = true)]
-    public string ConversionType
-    {
-        get => Conversion.ConversionType;
-        set => Conversion.ConversionType = value;
-    }
-
-    [BindProperty(SupportsGet = true)]
-    public string Input
-    {
-        get => Conversion.Input;
-        set => Conversion.Input = value;
-    }
-
-    public string Output
-    {
-        get => Conversion.Output;
-        set => Conversion.Output = value;
-    }
-
     public void OnGet()
     {
         if (string.IsNullOrEmpty(Conversion.ConversionType))
