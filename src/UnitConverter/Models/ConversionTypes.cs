@@ -1,5 +1,6 @@
 ﻿namespace UnitConverter.Models;
 
+// Sets conversion identifiers used throughout the app.
 public static class ConversionTypes
 {
     public const string MilesToKilometers = "MilesToKilometers";
@@ -11,6 +12,7 @@ public static class ConversionTypes
     public const string MphToMach = "MphToMach";
     public const string MachToMph = "MachToMph";
 
+    // Maps the conversion identifiers to follow more standard English conventions.
     public static readonly IReadOnlyDictionary<string, string> All =
         new Dictionary<string, string>
         {

@@ -13,6 +13,7 @@
         <select id="conversionType"
                 name="Conversion.ConversionType"
                 class="form-select">
+            @* Builds the conversion list from the conversion types.*@
             @foreach (var conversion in ConversionTypes.All)
             {
                 <option value="@conversion.Key">@conversion.Value</option>

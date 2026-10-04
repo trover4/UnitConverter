@@ -31,6 +31,7 @@ public class ConversionsModel : PageModel
 
     public void OnGet()
     {
+        // Sets default value when conversions page is opened without parameters.
         if (string.IsNullOrEmpty(Conversion.ConversionType))
         {
             Conversion.ConversionType = "MilesToKilometers";
@@ -46,6 +47,7 @@ public class ConversionsModel : PageModel
 
         double conversionInput;
 
+        // Converts the submitted string into a numeric value
         try
         {
             conversionInput = Convert.ToDouble(Conversion.Input);
