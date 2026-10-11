@@ -6,6 +6,13 @@ namespace UnitConverter.Pages;
 
 public class ConversionsModel : PageModel
 {
+    private readonly ILogger<ConversionsModel> _logger;
+
+    public ConversionsModel(ILogger<ConversionsModel> logger)
+    {
+        _logger = logger;
+    }
+
     [BindProperty(SupportsGet = true)]
     public ConversionModel Conversion { get; set; } = new();
 
@@ -55,36 +62,75 @@ public class ConversionsModel : PageModel
         catch (FormatException)
         {
             ViewData["ErrorMessage"] = "Input must be a valid number.";
+
+            _logger.LogWarning(
+                "Invalid conversion input {Input} for {ConversionType}",
+                Conversion.Input,
+                Conversion.ConversionType);
+
             return;
         }
 
-        double? conversionOutput = Conversion.ConversionType switch
+        _logger.LogInformation(
+            "Conversion requested using input {Input} and type {ConversionType}",
+            Conversion.Input,
+            Conversion.ConversionType);
+
+        double? conversionOutput;
+
+        try
         {
-            ConversionTypes.MilesToKilometers =>
-                new UnitOf.Length().FromMiles(conversionInput).ToKilometers(),
-            ConversionTypes.KilometersToMiles =>
-                new UnitOf.Length().FromKilometers(conversionInput).ToMiles(),
-            ConversionTypes.FahrenheitToCelsius =>
-                new UnitOf.Temperature().FromFahrenheit(conversionInput).ToCelsius(),
-            ConversionTypes.CelsiusToFahrenheit =>
-                new UnitOf.Temperature().FromCelsius(conversionInput).ToFahrenheit(),
-            ConversionTypes.PoundsToKilograms =>
-                new UnitOf.Mass().FromPounds(conversionInput).ToKilograms(),
-            ConversionTypes.KilogramsToPounds =>
-                new UnitOf.Mass().FromKilograms(conversionInput).ToPounds(),
-            ConversionTypes.MphToMach =>
-                new UnitOf.Speed().FromMilesPerHour(conversionInput).ToMach(),
-            ConversionTypes.MachToMph =>
-                new UnitOf.Speed().FromMach(conversionInput).ToMilesPerHour(),
-            _ => null
-        };
+            conversionOutput = Conversion.ConversionType switch
+            {
+                ConversionTypes.MilesToKilometers =>
+                    new UnitOf.Length().FromMiles(conversionInput).ToKilometers(),
+                ConversionTypes.KilometersToMiles =>
+                    new UnitOf.Length().FromKilometers(conversionInput).ToMiles(),
+                ConversionTypes.FahrenheitToCelsius =>
+                    new UnitOf.Temperature().FromFahrenheit(conversionInput).ToCelsius(),
+                ConversionTypes.CelsiusToFahrenheit =>
+                    new UnitOf.Temperature().FromCelsius(conversionInput).ToFahrenheit(),
+                ConversionTypes.PoundsToKilograms =>
+                    new UnitOf.Mass().FromPounds(conversionInput).ToKilograms(),
+                ConversionTypes.KilogramsToPounds =>
+                    new UnitOf.Mass().FromKilograms(conversionInput).ToPounds(),
+                ConversionTypes.MphToMach =>
+                    new UnitOf.Speed().FromMilesPerHour(conversionInput).ToMach(),
+                ConversionTypes.MachToMph =>
+                    new UnitOf.Speed().FromMach(conversionInput).ToMilesPerHour(),
+                _ => null
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(
+            ex,
+            "Conversion failed for {Input} using {ConversionType}",
+            conversionInput,
+            Conversion.ConversionType);
+
+            ViewData["ErrorMessage"] = "An error occurred during the conversion.";
+            return;
+        }
 
         if (conversionOutput is null)
         {
             ViewData["ErrorMessage"] = "Unknown conversion type.";
+
+            _logger.LogWarning(
+                "Unknown conversion type {ConversionType} with input {Input}",
+                Conversion.ConversionType,
+                Conversion.Input);
+
             return;
         }
 
         Conversion.Output = conversionOutput.Value.ToString();
+
+        _logger.LogInformation(
+            "Converted {Input} using {ConversionType} with result {Result}",
+            conversionInput,
+            Conversion.ConversionType,
+            conversionOutput.Value);
     }
 }

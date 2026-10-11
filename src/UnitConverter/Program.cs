@@ -1,10 +1,30 @@
 using UnitConverter.Services;
+using Serilog;
+using Serilog.Formatting.Compact;
 
 var builder = WebApplication.CreateBuilder(args);
+
+string logPath = Path.Combine(
+    builder.Environment.ContentRootPath,
+    "Logs",
+    "unitconverter-.json");
+
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration
+        .MinimumLevel.Information()
+        .WriteTo.Console()
+        .WriteTo.File(
+            new RenderedCompactJsonFormatter(),
+            logPath,
+            rollingInterval: RollingInterval.Day,
+            retainedFileCountLimit: 7);
+});
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<IConversionService, UnitOfConversionService>();
+builder.Services.AddSingleton<ILogReader, JsonLogReader>();
 //builder.Services.AddSingleton<IConversionService, UnitsNetConversionService>();
 
 var app = builder.Build();
