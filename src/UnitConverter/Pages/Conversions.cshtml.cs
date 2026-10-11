@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
 using UnitConverter.Models;
 
 namespace UnitConverter.Pages;
@@ -8,6 +10,11 @@ public class ConversionsModel : PageModel
 {
     private readonly ILogger<ConversionsModel> _logger;
 
+    public ConversionsModel() : this(NullLogger<ConversionsModel>.Instance)
+    {
+    }
+
+    [ActivatorUtilitiesConstructor]
     public ConversionsModel(ILogger<ConversionsModel> logger)
     {
         _logger = logger;
